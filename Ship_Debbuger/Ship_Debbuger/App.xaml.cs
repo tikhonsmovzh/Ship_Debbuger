@@ -6,11 +6,11 @@ namespace Ship_Debbuger
 {
     public partial class App : Application
     {
-        public App()
+        public App(IBlueToothHelper bluetoothHelper)
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new MainPage(bluetoothHelper);
         }
 
         protected override void OnStart()
