@@ -2,23 +2,37 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:ship_debbuger="clr-namespace:Ship_Debbuger" x:DataType="ship_debbuger:MainPageVM"
              x:Class="Ship_Debbuger.MainPage">
-
     <Grid>
         <Grid.RowDefinitions >
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+           
         </Grid.RowDefinitions>
+       
         <Grid.Resources>
             <Style x:Key="_defaultLabel" TargetType="Label">
-                <Setter Property="FontSize" Value="35"/>
+                <Setter Property="FontSize" Value="30"/>
             </Style>
         </Grid.Resources>
-
-        <Label Grid.Row="0" Style="{StaticResource _defaultLabel}" Text="{Binding XVal, Mode=OneWay}"/>
-        <Label Grid.Row="1" Style="{StaticResource _defaultLabel}" Text="{Binding YVal, Mode=OneWay}"/>
-
-        <Button Grid.Row="2" Text="ДАЙ" Command="{Binding GetCommand}"/>
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions >
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource _defaultLabel}" Text="Компас:"/>
+            <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource _defaultLabel}" Text="{Binding XVal, Mode=OneWay}"/>
+            <Label Grid.Row="2" Grid.Column="0" Style="{StaticResource _defaultLabel}" Text="{Binding YVal, Mode=OneWay}"/>
+            <Button Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Text="Калибровка" Command="{Binding CalibrateCompasCommand, Mode=OneWay}"/>
+        </Grid>
+        <Label Grid.Row="1" Style="{StaticResource _defaultLabel}" Text="Растояние:"/>
+        <Label Grid.Row="2" Style="{StaticResource _defaultLabel}" Text="{Binding L1, Mode=OneWay}"/>
+        <Label Grid.Row="3" Style="{StaticResource _defaultLabel}" Text="{Binding L2, Mode=OneWay}"/>
     </Grid>
-
 </ContentPage>

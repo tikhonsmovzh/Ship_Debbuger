@@ -1,5 +1,4 @@
-﻿using System;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Ship_Debbuger
@@ -11,10 +10,13 @@ namespace Ship_Debbuger
             InitializeComponent();
 
             MainPage = new MainPage(bluetoothHelper);
+           
+          
         }
 
         protected override void OnStart()
         {
+           
         }
 
         protected override void OnSleep()

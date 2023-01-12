@@ -10,8 +10,11 @@ namespace Ship_Debbuger.Droid
     public class BluetoothHelper: IBlueToothHelper
     {
         private bool _connected = false;
+
         private BluetoothSocket _soket;
+
         private const string DeviceName = "HC-05";
+
         public void Connect()
         {
             if (_connected) return;

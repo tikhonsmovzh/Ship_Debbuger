@@ -9,7 +9,7 @@ namespace Ship_Debbuger
 
         public DelegateCommand(Action action)
         {
-            this._action = action;
+            _action = action;
         }
         public event EventHandler CanExecuteChanged;
 

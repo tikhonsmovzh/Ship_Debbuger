@@ -12,9 +12,14 @@ namespace Ship_Debbuger
         {
             
             InitializeComponent();
-            BindingContext = new MainPageVM(new ShipManager(bluetoothHelper)) ;
+            BindingContext = new MainPageVM(new ShipManager(bluetoothHelper), this) ;
+           
         }
 
+        public async void ShowCompasCalibrate()
+        {
+            await Navigation.PushModalAsync(new CompasCalibrate());
+        }
       
     }
 }
