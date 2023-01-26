@@ -15,44 +15,111 @@ namespace Ship_Debbuger
     public partial class CompasCalibrate : ContentPage
     {
         private SKBitmap _paletteBitmap = null;
-        private SKBitmap PaletteBitmap => _paletteBitmap ?? (_paletteBitmap = new SKBitmap((int)_canvasView.Width, (int)_canvasView.Height));
+        private SKBitmap PaletteBitmap => _paletteBitmap ?? (_paletteBitmap = new SKBitmap((int)_canvasView.Width * 2, (int)_canvasView.Height * 2));
         private readonly Timer _timer;
-        private readonly Random _random;
-        public CompasCalibrate()
+        // readonly Random _random;
+        private readonly ShipManager _shipManager;
+        private const int Scale = 2;
+        private int maxX = int.MinValue;
+        private int maxY = int.MinValue;
+        private int minX = int.MaxValue;
+        private int minY = int.MaxValue;
+
+        public CompasCalibrate(ShipManager shipManager)
         {
+            _shipManager = shipManager;
             InitializeComponent();
-            _startButton.Text =  "Начать";
+            _startButton.Text = "Начать";
             _timer = new Timer
             {
-                Interval = 500
+
+                Interval = 200
             };
+
             _timer.Elapsed += _timer_Elapsed;
-            _random = new Random();
         }
+
+        private int _i;
+
+        private readonly SKPaint _whitePaint = new SKPaint() { Color = new SKColor(255, 255, 255) };
+        private readonly SKPaint _transparentPaint = new SKPaint() { Color = new SKColor(0, 0, 0) };
 
         private void _timer_Elapsed(object sender, ElapsedEventArgs e)
         {
+            All all = _shipManager.GetPoint();
+
+            if (maxX < all.point.X)
+                maxX = all.point.X;
+            if (minX > all.point.X)
+                minX = all.point.X;
+
+            if (maxY < all.point.Y)
+                maxY = all.point.Y;
+            if (minY > all.point.Y)
+                minY = all.point.Y;
 
             using (SKCanvas canvas = new SKCanvas(PaletteBitmap))
             {
-
-                canvas.DrawCircle(_random.Next(PaletteBitmap.Width-100)+50, _random.Next(PaletteBitmap.Height - 100) + 50, 50, new SKPaint() { Color = new SKColor(255, 0, 0), IsStroke = true });
-                //.DrawRect(0, 0, 50, 50, new SKPaint() { Color = new SKColor(255, 0,0) });
-                _canvasView.InvalidateSurface();
+                //PaletteBitmap.SetPixel(x, y, whiteColor);
+                canvas.DrawCircle(convertToWorldX(all.point.X), convertToWorldY(all.point.Y), 3, _whitePaint);
+                if (_i % 10 == 0)
+                    _canvasView.InvalidateSurface();
             }
+
+            _i++;
+            _i = _i % int.MaxValue;
         }
 
+        private int convertToWorldY(int y) => (PaletteBitmap.Height / 2 - y * Scale);
+        private int convertToWorldX(int x) => (Scale * x + PaletteBitmap.Width / 2);
+
         private bool _isWorking;
+
         private void Button_Clicked(object sender, EventArgs e)
         {
             _isWorking = !_isWorking;
             _startButton.Text = _isWorking ? "Остановить" : "Начать";
             if (_isWorking)
             {
+                maxX = int.MinValue;
+                maxY = int.MinValue;
+                minX = int.MaxValue;
+                minY = int.MaxValue;
+
+                using (SKCanvas canvas = new SKCanvas(PaletteBitmap))
+                {
+                    canvas.DrawRect(0, 0, PaletteBitmap.Width, PaletteBitmap.Height, _transparentPaint);
+
+                    canvas.DrawLine(PaletteBitmap.Width / 2, 0, PaletteBitmap.Width / 2, PaletteBitmap.Height, _whitePaint);
+                    canvas.DrawLine(0, PaletteBitmap.Height / 2, PaletteBitmap.Width, PaletteBitmap.Height / 2, _whitePaint);
+
+                    _canvasView.InvalidateSurface();
+                }
+
+                _saveButton.IsVisible = false;
+
                 _timer.Start();
             }
             else
             {
+                int maxXC = convertToWorldX(maxX);
+                int minXC = convertToWorldX(minX);
+                int maxYC = convertToWorldY(maxY);
+                int minYC = convertToWorldY(minY);
+
+                using (SKCanvas canvas = new SKCanvas(PaletteBitmap))
+                {
+                    canvas.DrawLine(maxXC, 0, maxXC, PaletteBitmap.Height, _whitePaint);
+                    canvas.DrawLine(minXC, 0, minXC, PaletteBitmap.Height, _whitePaint);
+
+                    canvas.DrawLine(0, maxYC, PaletteBitmap.Width, maxYC, _whitePaint);
+                    canvas.DrawLine(0, minYC, PaletteBitmap.Width, minYC, _whitePaint);
+
+                    _canvasView.InvalidateSurface();
+                }
+
+                _saveButton.IsVisible = true;
+
                 _timer.Stop();
             }
 
@@ -65,6 +132,12 @@ namespace Ship_Debbuger
             //    _canvasView.InvalidateSurface();
             //}
 
+        }
+
+        private void Button_Clicked_Save(object sender, EventArgs e) 
+        {
+            _shipManager.WriteXY(maxX, minX, maxY, minY);
+            _saveButton.IsVisible = false;
         }
 
         private void _canvasView_PaintSurface(object sender, SKPaintSurfaceEventArgs e)

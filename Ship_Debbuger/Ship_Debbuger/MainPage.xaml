@@ -21,6 +21,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -29,6 +30,7 @@
             <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource _defaultLabel}" Text="Компас:"/>
             <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource _defaultLabel}" Text="{Binding XVal, Mode=OneWay}"/>
             <Label Grid.Row="2" Grid.Column="0" Style="{StaticResource _defaultLabel}" Text="{Binding YVal, Mode=OneWay}"/>
+            <Label Grid.Row="3" Grid.Column="0" Style="{StaticResource _defaultLabel}" Text="{Binding Azimut, Mode=OneWay}"/>
             <Button Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Text="Калибровка" Command="{Binding CalibrateCompasCommand, Mode=OneWay}"/>
         </Grid>
         <Label Grid.Row="1" Style="{StaticResource _defaultLabel}" Text="Растояние:"/>

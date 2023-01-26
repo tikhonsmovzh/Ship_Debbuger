@@ -1,25 +1,33 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using Xamarin.Forms;
 
 namespace Ship_Debbuger
 {
     public partial class MainPage : ContentPage
     {
+        MainPageVM mainPageVM;
+
         public MainPage(IBlueToothHelper bluetoothHelper)
         {
-            
             InitializeComponent();
-            BindingContext = new MainPageVM(new ShipManager(bluetoothHelper), this) ;
-           
+            mainPageVM = new MainPageVM(new ShipManager(bluetoothHelper), this);
+            BindingContext = mainPageVM;
+            this.Appearing += Show;
         }
 
-        public async void ShowCompasCalibrate()
+        private void Show(object sender, EventArgs e)
         {
-            await Navigation.PushModalAsync(new CompasCalibrate());
+            mainPageVM.Show();
         }
-      
+
+        public async void ShowCompasCalibrate(ShipManager shipManager)
+        {
+            await Navigation.PushModalAsync(new CompasCalibrate(shipManager));
+        }
     }
 }

@@ -12,6 +12,8 @@ namespace Ship_Debbuger
         private readonly MainPage _mainPage;
         private All _all = new All();
 
+        private bool _isShow;
+
         public MainPageVM(ShipManager bluetoothHelper, MainPage mainPage)
         {
             CalibrateCompasCommand = new DelegateCommand(CalibrateCompas);
@@ -21,30 +23,37 @@ namespace Ship_Debbuger
         }
 
 
-        public string XVal => $"X={_all.point.X}"; 
+        public string XVal => $"X={_all.point.X}";
         public string YVal => $"Y={_all.point.Y}";
 
         public string L1 => $"растояние 1 = {_all.l1}";
         public string L2 => $"растояние 2 = {_all.l2}";
-        
+
+        public string Azimut => $"азимут = {_all.azimut}";
+
         private void CalibrateCompas()
         {
-            _mainPage.ShowCompasCalibrate();
+            _isShow = false;
+            _mainPage.ShowCompasCalibrate(_shipManager);
         }
         private void GetValue()
         {
             Task.Factory.StartNew(() =>
             {
-                while(true)
+                while (true)
                 {
-                    _all  = _shipManager.GetPoint();
+                    if (_isShow)
+                    {
+                        _all = _shipManager.GetPoint();
 
-                    OnChanged(nameof(XVal));
-                    OnChanged(nameof(YVal));
-                    OnChanged(nameof(L1));
-                    OnChanged(nameof(L2));
+                        OnChanged(nameof(XVal));
+                        OnChanged(nameof(YVal));
+                        OnChanged(nameof(L1));
+                        OnChanged(nameof(L2));
+                        OnChanged(nameof(Azimut));
 
-                    Task.Delay(200);
+                        Task.Delay(200);
+                    }
                 }
             });
 
@@ -54,5 +63,7 @@ namespace Ship_Debbuger
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        public void Show() => _isShow = true;
     }
 }
