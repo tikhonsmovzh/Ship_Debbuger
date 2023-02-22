@@ -7,7 +7,6 @@ namespace Ship_Debbuger
 {
     public class MainPageVM : INotifyPropertyChanged
     {
-        //<Button Grid.Row="6" Text="Начать обмен" Command="{Binding GetCommand}"/>
         private readonly ShipManager _shipManager;
         private readonly MainPage _mainPage;
         private All _all = new All();
@@ -17,25 +16,32 @@ namespace Ship_Debbuger
         public MainPageVM(ShipManager bluetoothHelper, MainPage mainPage)
         {
             CalibrateCompasCommand = new DelegateCommand(CalibrateCompas);
+            ZeroingCommand = new DelegateCommand(ZeroingCompas);
             _shipManager = bluetoothHelper;
             _mainPage = mainPage;
             GetValue();
         }
 
 
-        public string XVal => $"X={_all.point.X}";
-        public string YVal => $"Y={_all.point.Y}";
+        public string XVal => $"   X={_all.point.X}";
+        public string YVal => $"   Y={_all.point.Y}";
 
-        public string L1 => $"растояние 1 = {_all.l1}";
-        public string L2 => $"растояние 2 = {_all.l2}";
+        public string L1 => $"   растояние 1 = {_all.l1}";
+        public string L2 => $"   растояние 2 = {_all.l2}";
 
-        public string Azimut => $"азимут = {_all.azimut}";
+        public string Azimut => $"   азимут = {_all.azimut}";
+
+        public string Xpos => $"   X = {_all.positionX}";
+        public string Ypos => $"   Y = {_all.positionY}";
 
         private void CalibrateCompas()
         {
             _isShow = false;
             _mainPage.ShowCompasCalibrate(_shipManager);
         }
+
+        private void ZeroingCompas() => _shipManager.WriteZeroing (-19172);
+
         private void GetValue()
         {
             Task.Factory.StartNew(() =>
@@ -51,6 +57,8 @@ namespace Ship_Debbuger
                         OnChanged(nameof(L1));
                         OnChanged(nameof(L2));
                         OnChanged(nameof(Azimut));
+                        OnChanged(nameof(Xpos));
+                        OnChanged(nameof(Ypos));
 
                         Task.Delay(200);
                     }
@@ -60,6 +68,7 @@ namespace Ship_Debbuger
         }
 
         public ICommand CalibrateCompasCommand { get; }
+        public ICommand ZeroingCommand { get; }
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

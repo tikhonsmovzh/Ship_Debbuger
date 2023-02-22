@@ -6,6 +6,7 @@ namespace Ship_Debbuger
     public class ShipManager
     {
         private static readonly byte[] RequestPoinData = new byte[] { 198 };
+        private static readonly byte[] RequestZeroingData = new byte[] { 1 };
         private static readonly byte[] RequestSaveData = new byte[] { 2 };
 
         public ShipManager(IBlueToothHelper bluetoothHelper)
@@ -14,12 +15,19 @@ namespace Ship_Debbuger
             _bluetoothHelper.Connect();
         }
 
+        public void WriteZeroing(int azimut)
+        {
+            _bluetoothHelper.Write(RequestZeroingData);
+
+            _bluetoothHelper.Write(BitConverter.GetBytes((short)azimut));
+        }
+
         public All GetPoint()
         {
             All all = new All();
             _bluetoothHelper.Write(RequestPoinData);
             Thread.Sleep(200);
-            var result = _bluetoothHelper.Read(12);
+            var result = _bluetoothHelper.Read(16);
 
             short shiht(byte a, byte b) => (short)(a << 8 | b);
 
@@ -30,6 +38,9 @@ namespace Ship_Debbuger
 
             all.l1 = shiht(result[8], result[9]);
             all.l2 = shiht(result[10], result[11]);
+
+            all.positionX = shiht(result[12], result[13]);
+            all.positionY = shiht(result[14], result[15]);
 
             return all;
         }
@@ -67,5 +78,8 @@ namespace Ship_Debbuger
         public int l2 { get; set; }
 
         public int azimut { get; set; }
+
+        public int positionX { get; set; }
+        public int positionY { get; set; }
     }
 }

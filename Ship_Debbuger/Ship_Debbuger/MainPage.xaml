@@ -8,9 +8,12 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-           
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+
         </Grid.RowDefinitions>
-       
+
         <Grid.Resources>
             <Style x:Key="_defaultLabel" TargetType="Label">
                 <Setter Property="FontSize" Value="30"/>
@@ -31,10 +34,14 @@
             <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource _defaultLabel}" Text="{Binding XVal, Mode=OneWay}"/>
             <Label Grid.Row="2" Grid.Column="0" Style="{StaticResource _defaultLabel}" Text="{Binding YVal, Mode=OneWay}"/>
             <Label Grid.Row="3" Grid.Column="0" Style="{StaticResource _defaultLabel}" Text="{Binding Azimut, Mode=OneWay}"/>
+            <Button Grid.Column="1" Grid.Row="3" Grid.RowSpan="2" Text="обнуление" Command="{Binding ZeroingCommand, Mode=OneWay}"/>
             <Button Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Text="Калибровка" Command="{Binding CalibrateCompasCommand, Mode=OneWay}"/>
         </Grid>
         <Label Grid.Row="1" Style="{StaticResource _defaultLabel}" Text="Растояние:"/>
         <Label Grid.Row="2" Style="{StaticResource _defaultLabel}" Text="{Binding L1, Mode=OneWay}"/>
         <Label Grid.Row="3" Style="{StaticResource _defaultLabel}" Text="{Binding L2, Mode=OneWay}"/>
+        <Label Grid.Row="4" Style="{StaticResource _defaultLabel}" Text="Координаты:"/>
+        <Label Grid.Row="5" Style="{StaticResource _defaultLabel}" Text="{Binding Xpos, Mode=OneWay}"/>
+        <Label Grid.Row="6" Style="{StaticResource _defaultLabel}" Text="{Binding Ypos, Mode=OneWay}"/>
     </Grid>
 </ContentPage>
