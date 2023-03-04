@@ -17,11 +17,12 @@ namespace Ship_Debbuger
         {
             CalibrateCompasCommand = new DelegateCommand(CalibrateCompas);
             ZeroingCommand = new DelegateCommand(ZeroingCompas);
+            ZeroingGyroCommand = new DelegateCommand(ZeroingGyro);
+            FixationCommand = new DelegateCommand(Fixation);
             _shipManager = bluetoothHelper;
             _mainPage = mainPage;
             GetValue();
         }
-
 
         public string XVal => $"   X={_all.point.X}";
         public string YVal => $"   Y={_all.point.Y}";
@@ -30,6 +31,9 @@ namespace Ship_Debbuger
         public string L2 => $"   растояние 2 = {_all.l2}";
 
         public string Azimut => $"   азимут = {_all.azimut}";
+
+        public string Velocity => $"   ускорение = {_all.Velocity}";
+        public string Rot => $"   поворот = {_all.Rot}";
 
         public string Xpos => $"   X = {_all.positionX}";
         public string Ypos => $"   Y = {_all.positionY}";
@@ -40,7 +44,11 @@ namespace Ship_Debbuger
             _mainPage.ShowCompasCalibrate(_shipManager);
         }
 
-        private void ZeroingCompas() => _shipManager.WriteZeroing (-19172);
+        private void ZeroingCompas() => _shipManager.WriteZeroing();
+
+        private void ZeroingGyro() => _shipManager.WriteZeroingGyro();
+
+        private void Fixation() => _shipManager.WriteFixationData();
 
         private void GetValue()
         {
@@ -59,6 +67,8 @@ namespace Ship_Debbuger
                         OnChanged(nameof(Azimut));
                         OnChanged(nameof(Xpos));
                         OnChanged(nameof(Ypos));
+                        OnChanged(nameof(Velocity));
+                        OnChanged(nameof(Rot));
 
                         Task.Delay(200);
                     }
@@ -69,6 +79,8 @@ namespace Ship_Debbuger
 
         public ICommand CalibrateCompasCommand { get; }
         public ICommand ZeroingCommand { get; }
+        public ICommand ZeroingGyroCommand { get; }
+        public ICommand FixationCommand { get; }
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

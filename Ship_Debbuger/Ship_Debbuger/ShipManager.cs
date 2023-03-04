@@ -5,29 +5,30 @@ namespace Ship_Debbuger
 {
     public class ShipManager
     {
-        private static readonly byte[] RequestPoinData = new byte[] { 198 };
-        private static readonly byte[] RequestZeroingData = new byte[] { 1 };
-        private static readonly byte[] RequestSaveData = new byte[] { 2 };
+        private readonly byte[] RequestPoinData = new byte[] { 198 };
+        private readonly byte[] RequestZeroingData = new byte[] { 1 };
+        private readonly byte[] RequestSaveData = new byte[] { 2 };
+        private readonly byte[] RequestZeroingGyroData = new byte[] { 3 };
+        private readonly byte[] RequestFixationData = new byte[] { 4 };
 
         public ShipManager(IBlueToothHelper bluetoothHelper)
         {
-           _bluetoothHelper = bluetoothHelper;
+            _bluetoothHelper = bluetoothHelper;
             _bluetoothHelper.Connect();
         }
 
-        public void WriteZeroing(int azimut)
-        {
-            _bluetoothHelper.Write(RequestZeroingData);
+        public void WriteZeroing() => _bluetoothHelper.Write(RequestZeroingData);
 
-            _bluetoothHelper.Write(BitConverter.GetBytes((short)azimut));
-        }
+        public void WriteZeroingGyro() => _bluetoothHelper.Write(RequestZeroingGyroData);
+
+        public void WriteFixationData() => _bluetoothHelper.Write(RequestFixationData);
 
         public All GetPoint()
         {
             All all = new All();
             _bluetoothHelper.Write(RequestPoinData);
             Thread.Sleep(200);
-            var result = _bluetoothHelper.Read(16);
+            var result = _bluetoothHelper.Read(20);
 
             short shiht(byte a, byte b) => (short)(a << 8 | b);
 
@@ -41,6 +42,10 @@ namespace Ship_Debbuger
 
             all.positionX = shiht(result[12], result[13]);
             all.positionY = shiht(result[14], result[15]);
+
+            all.Velocity = shiht(result[16], result[17]);
+
+            all.Rot = shiht(result[18], result[19]);
 
             return all;
         }
@@ -81,5 +86,8 @@ namespace Ship_Debbuger
 
         public int positionX { get; set; }
         public int positionY { get; set; }
+
+        public int Rot { get; set; }
+        public int Velocity { get; set; }
     }
 }
