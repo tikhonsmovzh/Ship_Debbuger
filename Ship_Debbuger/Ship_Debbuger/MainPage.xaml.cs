@@ -29,5 +29,9 @@ namespace Ship_Debbuger
         {
             await Navigation.PushModalAsync(new CompasCalibrate(shipManager));
         }
+        public async void ShowManualControl(ShipManager shipManager)
+        {
+            await Navigation.PushModalAsync(new ManualControl(shipManager));
+        }
     }
 }

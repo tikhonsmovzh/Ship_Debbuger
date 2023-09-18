@@ -16,6 +16,7 @@ namespace Ship_Debbuger
         public MainPageVM(ShipManager bluetoothHelper, MainPage mainPage)
         {
             CalibrateCompasCommand = new DelegateCommand(CalibrateCompas);
+            ManualControlCommand = new DelegateCommand(ManualControl);
             ZeroingCommand = new DelegateCommand(ZeroingCompas);
             ZeroingGyroCommand = new DelegateCommand(ZeroingGyro);
             FixationCommand = new DelegateCommand(Fixation);
@@ -42,6 +43,12 @@ namespace Ship_Debbuger
         {
             _isShow = false;
             _mainPage.ShowCompasCalibrate(_shipManager);
+        }
+       
+        private void ManualControl()
+        {
+            _isShow = false;
+            _mainPage.ShowManualControl(_shipManager);
         }
 
         private void ZeroingCompas() => _shipManager.WriteZeroing();
@@ -78,6 +85,7 @@ namespace Ship_Debbuger
         }
 
         public ICommand CalibrateCompasCommand { get; }
+        public ICommand ManualControlCommand { get; }
         public ICommand ZeroingCommand { get; }
         public ICommand ZeroingGyroCommand { get; }
         public ICommand FixationCommand { get; }
