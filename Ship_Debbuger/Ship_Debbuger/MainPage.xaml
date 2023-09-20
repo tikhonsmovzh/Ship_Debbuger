@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:ship_debbuger="clr-namespace:Ship_Debbuger" x:DataType="ship_debbuger:MainPageVM"
              x:Class="Ship_Debbuger.MainPage">
-    <Grid>
+    <Grid Margin="10">
         <Grid.RowDefinitions >
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -13,12 +13,8 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -34,24 +30,14 @@
         <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource _defaultLabel}" Text="Компас:"/>
         <Button Grid.Row="1"  Grid.Column="1" Grid.RowSpan="2" Text="Калибровка" Command="{Binding CalibrateCompasCommand, Mode=OneWay}"/>
         
-        <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource _defaultLabel}" Text="{Binding XVal, Mode=OneWay}"/>
-        <Label Grid.Row="2" Grid.Column="0" Style="{StaticResource _defaultLabel}" Text="{Binding YVal, Mode=OneWay}"/>
         <Label Grid.Row="3" Grid.Column="0" Style="{StaticResource _defaultLabel}" Text="{Binding Azimut, Mode=OneWay}"/>
         <Button Grid.Row="3"  Grid.Column="1" Text="обнуление" Command="{Binding ZeroingCommand, Mode=OneWay}"/>
 
-        <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource _defaultLabel}" Text="Растояние:"/>
-        <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource _defaultLabel}" Text="{Binding L1, Mode=OneWay}"/>
-        <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource _defaultLabel}" Text="{Binding L2, Mode=OneWay}"/>
+        <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource _defaultLabel}" Text="Кординаты:"/>
+        <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource _defaultLabel}" Text="{Binding Lactitude, Mode=OneWay}"/>
+        <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource _defaultLabel}" Text="{Binding Longtitude, Mode=OneWay}"/>
         
-        <Label Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource _defaultLabel}" Text="Координаты:"/>
-        <Label Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource _defaultLabel}" Text="{Binding Xpos, Mode=OneWay}"/>
-        <Label Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource _defaultLabel}" Text="{Binding Ypos, Mode=OneWay}"/>
-        <Button Grid.Row="8" Grid.Column="1" Grid.RowSpan="2" Text="фиксация" Command="{Binding FixationCommand, Mode=OneWay}"/>
+        <Button Grid.Row="7" Grid.Column="0"  Text="Ручной режим" Command="{Binding ManualControlCommand, Mode=OneWay}"/>
         
-        <Label Grid.Row="10" Grid.Column="0" Style="{StaticResource _defaultLabel}" Text="Гироскоп:"/>
-        <Label Grid.Row="11" Grid.Column="0" Style="{StaticResource _defaultLabel}" Text="{Binding Velocity, Mode=OneWay}"/>
-        <Label Grid.Row="12" Grid.Column="0" Style="{StaticResource _defaultLabel}" Text="{Binding Rot, Mode=OneWay}"/>
-        <Button Grid.Row="11" Grid.Column="1" Grid.RowSpan="2" Text="обнуление" Command="{Binding ZeroingGyroCommand, Mode=OneWay}"/>
-        <Button Grid.Row="13" Grid.Column="0"  Text="Ручной режим" Command="{Binding ManualControlCommand, Mode=OneWay}"/>
     </Grid>
 </ContentPage>

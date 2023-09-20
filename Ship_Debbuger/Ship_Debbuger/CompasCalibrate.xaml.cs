@@ -48,20 +48,20 @@ namespace Ship_Debbuger
         {
             All all = _shipManager.GetPoint();
 
-            if (maxX < all.point.X)
-                maxX = all.point.X;
-            if (minX > all.point.X)
-                minX = all.point.X;
+            //if (maxX < all.point.X)
+            //    maxX = all.point.X;
+            //if (minX > all.point.X)
+            //    minX = all.point.X;
 
-            if (maxY < all.point.Y)
-                maxY = all.point.Y;
-            if (minY > all.point.Y)
-                minY = all.point.Y;
+            //if (maxY < all.point.Y)
+            //    maxY = all.point.Y;
+            //if (minY > all.point.Y)
+            //    minY = all.point.Y;
 
             using (SKCanvas canvas = new SKCanvas(PaletteBitmap))
             {
                 //PaletteBitmap.SetPixel(x, y, whiteColor);
-                canvas.DrawCircle(convertToWorldX(all.point.X), convertToWorldY(all.point.Y), 3, _whitePaint);
+                //canvas.DrawCircle(convertToWorldX(all.point.X), convertToWorldY(all.point.Y), 3, _whitePaint);
                 if (_i % 10 == 0)
                     _canvasView.InvalidateSurface();
             }

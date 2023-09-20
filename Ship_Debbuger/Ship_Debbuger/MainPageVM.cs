@@ -25,20 +25,13 @@ namespace Ship_Debbuger
             GetValue();
         }
 
-        public string XVal => $"   X={_all.point.X}";
-        public string YVal => $"   Y={_all.point.Y}";
+        public string Lactitude => $"   Широта={_all.Lactitude}";
+        public string Longtitude => $"  Долгота ={_all.Longtitude}";
 
-        public string L1 => $"   растояние 1 = {_all.l1}";
-        public string L2 => $"   растояние 2 = {_all.l2}";
+      
+        public string Azimut => $"   азимут = {_all.Azimut}";
 
-        public string Azimut => $"   азимут = {_all.azimut}";
-
-        public string Velocity => $"   ускорение = {_all.Velocity}";
-        public string Rot => $"   поворот = {_all.Rot}";
-
-        public string Xpos => $"   X = {_all.positionX}";
-        public string Ypos => $"   Y = {_all.positionY}";
-
+      
         private void CalibrateCompas()
         {
             _isShow = false;
@@ -67,16 +60,10 @@ namespace Ship_Debbuger
                     {
                         _all = _shipManager.GetPoint();
 
-                        OnChanged(nameof(XVal));
-                        OnChanged(nameof(YVal));
-                        OnChanged(nameof(L1));
-                        OnChanged(nameof(L2));
+                        OnChanged(nameof(Longtitude));
+                        OnChanged(nameof(Lactitude));
                         OnChanged(nameof(Azimut));
-                        OnChanged(nameof(Xpos));
-                        OnChanged(nameof(Ypos));
-                        OnChanged(nameof(Velocity));
-                        OnChanged(nameof(Rot));
-
+                       
                         Task.Delay(200);
                     }
                 }

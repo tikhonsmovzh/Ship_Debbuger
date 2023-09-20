@@ -1,15 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:forms="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:forms="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms" xmlns:ship_debbuger="clr-namespace:Ship_Debbuger"
+             x:DataType="ship_debbuger:ManualControlVM"
              x:Class="Ship_Debbuger.ManualControl">
     <ContentPage.Content>
-        <Grid>
+        <Grid Margin="20">
             <Grid.Resources>
                 <Style x:Key="_label" TargetType="Label">
-                    <Setter Property="FontSize" Value="15"/>
+                    <Setter Property="FontSize" Value="35"/>
+                    <Setter Property="HorizontalOptions" Value="Center"/>
                 </Style>
+                
+                
             </Grid.Resources>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
@@ -19,8 +29,15 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             
-            <Label Grid.Row="0" Grid.Column="0" Margin="10,10,0,0" Text="L" Style="{StaticResource _label}"/>
-            
+            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"  Text="Левый" Style="{StaticResource _label}"/>
+            <Slider Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Minimum="-255" Maximum="255" Value="{Binding LeftMotorValue}"/>
+            <Label Grid.Row="2" Grid.Column="1"  Text="{Binding LeftMotorValue}" Style="{StaticResource _label}"/>
+            <Button Grid.Row="3" Grid.Column="0" Text="-" Command="{Binding BackCommand}"/>
+            <Button Grid.Row="3" Grid.Column="1" Text="Стоп" Command="{Binding StopCommand}"/>
+            <Button Grid.Row="3" Grid.Column="2" Text="+" Command="{Binding ForvardCommand}"/>
+            <Label Grid.Row="4" Grid.Column="0"  Text="Правый" Grid.ColumnSpan="3" Style="{StaticResource _label}"/>
+            <Slider Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Minimum="-255" Maximum="255" Value="{Binding RightMotorValue}"/>
+            <Label Grid.Row="6" Grid.Column="1"  Text="{Binding RightMotorValue}" Style="{StaticResource _label}"/>
         </Grid>
        
     </ContentPage.Content>
