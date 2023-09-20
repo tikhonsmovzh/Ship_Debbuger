@@ -46,22 +46,21 @@ namespace Ship_Debbuger
 
         private void _timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            All all = _shipManager.GetPoint();
+            var  compasParameters = _shipManager.GetCompasParameters();
 
-            //if (maxX < all.point.X)
-            //    maxX = all.point.X;
-            //if (minX > all.point.X)
-            //    minX = all.point.X;
+            if (maxX < compasParameters.X)
+                maxX = compasParameters.X;
+            if (minX > compasParameters.X)
+                minX = compasParameters.X;
 
-            //if (maxY < all.point.Y)
-            //    maxY = all.point.Y;
-            //if (minY > all.point.Y)
-            //    minY = all.point.Y;
+            if (maxY < compasParameters.Y)
+                maxY = compasParameters.Y;
+            if (minY > compasParameters.Y)
+                minY = compasParameters.Y;
 
             using (SKCanvas canvas = new SKCanvas(PaletteBitmap))
-            {
-                //PaletteBitmap.SetPixel(x, y, whiteColor);
-                //canvas.DrawCircle(convertToWorldX(all.point.X), convertToWorldY(all.point.Y), 3, _whitePaint);
+            {               
+                canvas.DrawCircle(convertToWorldX(compasParameters.X), convertToWorldY(compasParameters.Y), 3, _whitePaint);
                 if (_i % 10 == 0)
                     _canvasView.InvalidateSurface();
             }

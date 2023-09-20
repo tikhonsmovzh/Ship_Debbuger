@@ -25,19 +25,19 @@ namespace Ship_Debbuger
             GetValue();
         }
 
-        public string Lactitude => $"   Широта={_all.Lactitude}";
-        public string Longtitude => $"  Долгота ={_all.Longtitude}";
+        public string Lactitude => $"   Широта = {(double)_all.Lactitude / 1000000}";
+        public string Longtitude => $"  Долгота = {(double)_all.Longtitude / 1000000}";
 
-      
+
         public string Azimut => $"   азимут = {_all.Azimut}";
 
-      
+
         private void CalibrateCompas()
         {
             _isShow = false;
             _mainPage.ShowCompasCalibrate(_shipManager);
         }
-       
+
         private void ManualControl()
         {
             _isShow = false;
@@ -63,7 +63,7 @@ namespace Ship_Debbuger
                         OnChanged(nameof(Longtitude));
                         OnChanged(nameof(Lactitude));
                         OnChanged(nameof(Azimut));
-                       
+
                         Task.Delay(200);
                     }
                 }
@@ -80,6 +80,10 @@ namespace Ship_Debbuger
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-        public void Show() => _isShow = true;
+        public void Show()
+        {
+            _isShow = true;
+            _shipManager.StopManualMode();
+        }
     }
 }

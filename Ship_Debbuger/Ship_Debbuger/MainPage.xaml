@@ -28,16 +28,16 @@
         </Grid.Resources>
         
         <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource _defaultLabel}" Text="Компас:"/>
-        <Button Grid.Row="1"  Grid.Column="1" Grid.RowSpan="2" Text="Калибровка" Command="{Binding CalibrateCompasCommand, Mode=OneWay}"/>
+        <Button Grid.Row="2"  Grid.Column="1"  Text="Калибровка" Command="{Binding CalibrateCompasCommand, Mode=OneWay}"/>
         
-        <Label Grid.Row="3" Grid.Column="0" Style="{StaticResource _defaultLabel}" Text="{Binding Azimut, Mode=OneWay}"/>
-        <Button Grid.Row="3"  Grid.Column="1" Text="обнуление" Command="{Binding ZeroingCommand, Mode=OneWay}"/>
+        <Label Grid.Row="4" Grid.Column="0" Style="{StaticResource _defaultLabel}" Text="{Binding Azimut, Mode=OneWay}"/>
+        <Button Grid.Row="4"  Grid.Column="1" Text="обнуление" Command="{Binding ZeroingCommand, Mode=OneWay}"/>
 
-        <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource _defaultLabel}" Text="Кординаты:"/>
-        <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource _defaultLabel}" Text="{Binding Lactitude, Mode=OneWay}"/>
-        <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource _defaultLabel}" Text="{Binding Longtitude, Mode=OneWay}"/>
+        <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource _defaultLabel}" Text="Кординаты:"/>
+        <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource _defaultLabel}" Text="{Binding Lactitude, Mode=OneWay}"/>
+        <Label Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource _defaultLabel}" Text="{Binding Longtitude, Mode=OneWay}"/>
         
-        <Button Grid.Row="7" Grid.Column="0"  Text="Ручной режим" Command="{Binding ManualControlCommand, Mode=OneWay}"/>
+        <Button Grid.Row="8" Grid.Column="0"  Text="Ручной режим" Command="{Binding ManualControlCommand, Mode=OneWay}"/>
         
     </Grid>
 </ContentPage>

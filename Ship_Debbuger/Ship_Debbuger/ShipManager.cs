@@ -6,12 +6,14 @@ namespace Ship_Debbuger
     public class ShipManager
     {
         private readonly byte[] RequestPoinData = new byte[] { 198 };
+        private readonly byte[] RequestCompasParametesData = new byte[] { 199 };
         private readonly byte[] RequestZeroingData = new byte[] { 1 };
         private readonly byte[] RequestSaveData = new byte[] { 2 };
         private readonly byte[] RequestZeroingGyroData = new byte[] { 3 };
         private readonly byte[] RequestFixationData = new byte[] { 4 };
         private readonly byte[] RequestStartManualMode = new byte[] { 5 };
         private readonly byte[] RequestSetMotorsValues = new byte[] { 7 };
+        private readonly byte[] RequestStopManualMode = new byte[] { 8 };
 
         public ShipManager(IBlueToothHelper bluetoothHelper)
         {
@@ -25,6 +27,11 @@ namespace Ship_Debbuger
 
         public void WriteFixationData() => _bluetoothHelper.Write(RequestFixationData);
 
+        public void StopManualMode() => _bluetoothHelper.Write(RequestStopManualMode);
+
+        private short shiht(byte a, byte b) => (short)(a << 8 | b);
+        private uint shiftLong(byte a, byte b, byte c, byte d) => (uint)(a << 24 | b << 16 | c << 8 | d);
+
         public All GetPoint()
         {
             All all = new All();
@@ -32,8 +39,7 @@ namespace Ship_Debbuger
             Thread.Sleep(200);
             var result = _bluetoothHelper.Read(10);
 
-            short shiht(byte a, byte b) => (short)(a << 8 | b);
-            uint shiftLong(byte a, byte b, byte c, byte d) => (uint)(a << 24 | b << 16 | c << 8 | d);
+          
 
             all.Lactitude = shiftLong(result[0], result[1], result[2], result[3]);
             all.Longtitude = shiftLong(result[4], result[5], result[6], result[7]);
@@ -42,6 +48,14 @@ namespace Ship_Debbuger
 
          
             return all;
+        }
+        public CompasParameters GetCompasParameters()
+        {
+            _bluetoothHelper.Write(RequestCompasParametesData);
+            var result = _bluetoothHelper.Read(6);
+            return new CompasParameters(shiht(result[0], result[1]), shiht(result[4], result[5]));
+
+
         }
 
         private IBlueToothHelper _bluetoothHelper;
@@ -58,13 +72,13 @@ namespace Ship_Debbuger
 
         internal void StartManual()
         {
-            return;
+           
             _bluetoothHelper.Write(RequestStartManualMode);
         }
 
         internal void WriteMotorsValues(int leftMotorValue, int rightMotorValue)
         {
-            return;
+           
             _bluetoothHelper.Write(RequestSetMotorsValues);
             _bluetoothHelper.Write(BitConverter.GetBytes((short)leftMotorValue));
             _bluetoothHelper.Write(BitConverter.GetBytes((short)rightMotorValue));
@@ -72,9 +86,9 @@ namespace Ship_Debbuger
         }
     }
 
-    public class Point
+    public class CompasParameters
     {
-        public Point(int x, int y)
+        public CompasParameters(int x, int y)
         {
             X = x;
             Y = y;
